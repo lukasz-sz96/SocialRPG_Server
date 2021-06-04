@@ -1,10 +1,23 @@
-import fastify from 'fastify';
+import fastify, { FastifyRequest } from 'fastify';
+import db from '../database/handler';
+
+interface test extends FastifyRequest {
+  query: {
+    name: string;
+  };
+}
 
 const server = fastify();
 
+interface test {
+  query: {
+    name: string;
+  };
+}
+
 // Declare a route
-server.get('/', async (request, reply) => {
-  return { hello: 'world' };
+server.get('/player:name', async (request: any, reply) => {
+  return await db.findByName(request.query.name);
 });
 
 // Run the server!
